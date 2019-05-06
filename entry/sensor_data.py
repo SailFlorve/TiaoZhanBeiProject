@@ -19,3 +19,6 @@ class SensorData:
         result += "actionType: " + self.action_type + "\n"
         result += "Sensor: \n" + str(self.sensor_dict) + "\n"
         return result
+
+    def get_sensor(self, sensor_id: str) -> Sensor:
+        return self.sensor_dict[sensor_id]
