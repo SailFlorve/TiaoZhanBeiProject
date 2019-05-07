@@ -3,7 +3,8 @@ from typing import Dict
 from entry.sensor import Sensor
 
 
-class SensorData:
+# 此类保存四个传感器的数据
+class SensorDataSet:
     input_times: int = 0
     action_type: str = None
     sensor_dict: Dict[str, Sensor] = {}

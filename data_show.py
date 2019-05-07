@@ -2,40 +2,49 @@ from constant.sensor_ID import SensorID
 from util.filter import low_pass_filter
 from util.sensor_data_util import SensorDataUtil
 from matplotlib import pyplot as plt
+import numpy as np
 
 path = "data\\2019-05-05 22-41-37 深蹲5次.json"
 
 # 初始化Util
-util = SensorDataUtil(path)
+sdu = SensorDataUtil(path)
 
 # 打印数据信息
-print(util)
+print(sdu)
 
 # 绘制该传感器所有轴的图
-util.plot(SensorID.SLAVE_3)
+sdu.plot(SensorID.HOST)
 
 plt.figure()
 
-# 获得从机3的加速度
-slave_3_acc = util.get_sensor(SensorID.SLAVE_3).acceleration_data
+sensor_host = sdu.get_sensor(SensorID.HOST)
 
-plt.subplot(311)
-plt.plot(slave_3_acc)
-plt.title("Salve Sensor 3 Acceleration All Axis")
+# 获得主机的加速度
+host_acc_seq = sensor_host.acceleration
 
-# 获得从机3加速度z轴
-slave_3_acc_z = util.get_axis(SensorID.SLAVE_3, SensorID.AXIS_Z, SensorID.DATA_ACCELERATOR)
+# 三轴
+host_acc_data = host_acc_seq.data
+# x,y,z
+host_acc_x = host_acc_seq.axis_x()
+host_acc_y = host_acc_seq.axis_y()
+host_acc_z = host_acc_seq.axis_z()
 
-plt.subplot(312)
-plt.plot(slave_3_acc_z)
-plt.title('Salve Sensor 3 Acceleration Z Axis')
+plt.plot(host_acc_x, label='x')
+plt.plot(host_acc_y, label='y')
+plt.plot(host_acc_z, label='z')
 
-# 对从机3加速度z轴进行滤波
-slave_3_acc_z_filtered = low_pass_filter(slave_3_acc_z)
+plt.legend()
+plt.show()
 
-plt.subplot(313)
-plt.plot(slave_3_acc_z)
-plt.plot(slave_3_acc_z_filtered)
-plt.title("Slave Sensor 3 Acceleration Z Axis Filtered")
+host_acc_z_filtered = low_pass_filter(host_acc_z, weight=0.08)
+plt.plot(host_acc_z_filtered)
+plt.plot(host_acc_z)
+plt.show()
 
+host_acc_z_filtered_diff = np.diff(host_acc_z_filtered)
+
+plt.plot(host_acc_z_filtered)
+plt.plot(low_pass_filter(host_acc_z_filtered_diff))
+print(host_acc_z_filtered)
+print(host_acc_z_filtered_diff)
 plt.show()
