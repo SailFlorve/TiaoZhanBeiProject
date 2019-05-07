@@ -17,7 +17,7 @@ sdu.plot(SensorID.HOST)
 
 plt.figure()
 
-sensor_host = sdu.get_sensor(SensorID.HOST)
+sensor_host = sdu.get_sensor(SensorID.SLAVE_3)
 
 # 获得主机的加速度
 host_acc_seq = sensor_host.acceleration
@@ -30,7 +30,7 @@ host_acc_y = host_acc_seq.axis_y()
 host_acc_z = host_acc_seq.axis_z()
 
 plt.plot(host_acc_x, label='x')
-plt.plot(host_acc_y, label='y')
+plt.plot(host_acc_y, 'o-', label='y')
 plt.plot(host_acc_z, label='z')
 
 plt.legend()
