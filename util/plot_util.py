@@ -4,6 +4,11 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
+# 画图工具类，使用方法:
+# pu = PlotUtil()
+# pu.plot.show() 默认绘制一张
+# pu.plot().plot().plot().show() 自动绘制多张
+
 class PlotUtil:
     data_list: List = []
     label_list = []
@@ -24,6 +29,11 @@ class PlotUtil:
         return self
 
     def show(self, row=None, column=None):
+        """
+        绘制所有图像，默认绘制n行一列
+        :param row: 行数
+        :param column: 列数
+        """
         row = self.plot_num if row is None else row
         column = 1 if column is None else column
 
