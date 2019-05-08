@@ -8,6 +8,14 @@ from entry.sensor_data_set import SensorDataSet
 from util.json_parser import JsonParser
 
 
+# 数据解析和获取工具类，使用方法：
+# sdu = SensorDataUtil(path) 创建对象
+# sensor = sdu.get_sensor(SensorID.HOST) 获得Sensor对象（包含name，加速度和角度）
+# sensor_acc_seq = sensor.acceleration 获得SensorDataSequence对象（包含数值，和三个获取坐标轴的方法）
+
+# sensor_acc_data = sensor_acc_seq.data 获得数值
+# sensor_acc_x = sensor_acc_seq.axis_x 获得某一坐标轴的数值
+
 class SensorDataUtil:
     sensor_data: SensorDataSet = None
 

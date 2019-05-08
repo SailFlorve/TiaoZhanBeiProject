@@ -3,15 +3,15 @@ from dataclasses import dataclass
 import numpy as np
 
 
-@dataclass
 class SensorDataSequence:
     data: np.ndarray
 
-    def axis_x(self):
-        return self.data[:, 0:1]
+    axis_x: np.ndarray
+    axis_y: np.ndarray
+    axis_z: np.ndarray
 
-    def axis_y(self):
-        return self.data[:, 1:2]
-
-    def axis_z(self):
-        return self.data[:, 2:3]
+    def __init__(self, data):
+        self.data = data
+        self.axis_x = data[:, 0:1]
+        self.axis_y = data[:, 1:2]
+        self.axis_z = data[:, 2:3]

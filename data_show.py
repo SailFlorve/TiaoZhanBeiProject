@@ -12,8 +12,8 @@ pu = PlotUtil()
 sensor = sdu.get_sensor(SensorID.HOST)
 sensor_acc = sensor.acceleration
 
-acc_x = sensor_acc.axis_x()
-acc_y = sensor_acc.axis_y()
+acc_x = sensor_acc.axis_x
+acc_y = sensor_acc.axis_y
 
-pu.plot(acc_x, 'x', 'x data').plot(acc_y, title='y data').plot(sensor_acc.data).show(2, 1)
+pu.plot(acc_x, 'x', 'x data').plot(acc_y, title='y data').plot(sensor_acc.data).show(2, 2)
 pu.plot(acc_x).show()
