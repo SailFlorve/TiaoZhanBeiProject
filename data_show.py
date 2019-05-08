@@ -12,11 +12,6 @@ sdu = SensorDataUtil(path)
 # 打印数据信息
 print(sdu)
 
-# 绘制该传感器所有轴的图
-sdu.plot(SensorID.HOST)
-
-plt.figure()
-
 sensor_host = sdu.get_sensor(SensorID.SLAVE_3)
 
 # 获得主机的加速度
@@ -29,22 +24,17 @@ host_acc_x = host_acc_seq.axis_x()
 host_acc_y = host_acc_seq.axis_y()
 host_acc_z = host_acc_seq.axis_z()
 
-plt.plot(host_acc_x, label='x')
-plt.plot(host_acc_y, 'o-', label='y')
-plt.plot(host_acc_z, label='z')
+host_ori_data = sensor_host.orientation.data
+ori_x = sensor_host.orientation.axis_x
+ori_y = sensor_host.orientation.axis_y
+ori_z = sensor_host.orientation.axis_z
 
-plt.legend()
-plt.show()
+host_acc_x_fixed = (host_acc_x * np.cos(ori_x))
+host_acc_y_fixed = (host_acc_y * np.cos(ori_y))
+host_acc_z_fixed = (host_acc_z * np.cos(ori_z))
 
-host_acc_z_filtered = low_pass_filter(host_acc_z, weight=0.08)
-plt.plot(host_acc_z_filtered)
-plt.plot(host_acc_z)
-plt.show()
+plt.plot(host_acc_x_fixed)
+plt.plot(host_acc_y_fixed)
+plt.plot(host_acc_z_fixed)
 
-host_acc_z_filtered_diff = np.diff(host_acc_z_filtered)
-
-plt.plot(host_acc_z_filtered)
-plt.plot(low_pass_filter(host_acc_z_filtered_diff))
-print(host_acc_z_filtered)
-print(host_acc_z_filtered_diff)
 plt.show()

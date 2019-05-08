@@ -5,7 +5,7 @@ import numpy as np
 
 @dataclass
 class SensorDataSequence:
-    data: np.core.multiarray
+    data: np.ndarray
 
     def axis_x(self):
         return self.data[:, 0:1]
