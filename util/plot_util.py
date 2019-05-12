@@ -48,6 +48,15 @@ class PlotUtil:
 
         self.clear()
 
+    def show_together(self):
+        for i, data in enumerate(self.data_list):
+            plt.plot(self.data_list[i], self.form_list[i], label=self.label_list[i])
+
+        plt.legend()
+        plt.show()
+
+        self.clear()
+
     def clear(self):
         self.data_list.clear()
         self.label_list.clear()

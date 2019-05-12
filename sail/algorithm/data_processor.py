@@ -1,77 +1,8 @@
 import copy
+
 import math
-
 import numpy
-
 from sklearn.decomposition import PCA
-
-
-def get_diff(data_list):
-    result = []
-    for i in range(1, len(data_list)):
-        result.append(data_list[i] - data_list[i - 1])
-    return result
-
-
-def zero_cross(diff_list, origin_data, sport_type):
-    cross_dict = {'高抬腿': 1, '深蹲': 1, '开合跳': 1}
-    interval_min_dict = {'高抬腿': 5, '深蹲': 15, '开合跳': 10}
-    interval_max_dict = {'高抬腿': 30, '深蹲': 60, '开合跳': 30}
-    diff_min_dict = {'高抬腿': 10, '深蹲': 80, '开合跳': 35}
-    diff_max_dict = {'高抬腿': 50, '深蹲': 140, '开合跳': 120}
-
-    result = 0
-
-    cross = 0
-    cross_count = 0
-    interval = 0
-
-    start_record_interval = False
-
-    last_value = 0
-
-    for j, val in enumerate(diff_list):
-        if j == 0:
-            continue
-
-        # 1.刚穿了一个点，cross = 0，cross + 1, 开始记录间隔。
-        # 2.穿了第二个点，如果间隔正确，步数+1。清除穿越数字。
-
-        if start_record_interval:
-            interval += 1
-
-        if diff_list[j] < 0 < diff_list[j - 1] or diff_list[j] > 0 > diff_list[j - 1]:
-            if cross < cross_dict[sport_type]:
-                last_value = origin_data[j - 1]
-                cross += 1
-                start_record_interval = True
-
-            elif cross == cross_dict[sport_type]:
-                print(cross_count + 1, interval, abs(last_value - origin_data[j]), end=' ')
-                cross_count += 1
-                if (interval_min_dict[sport_type] <= interval <= interval_max_dict[sport_type]) and (
-                        diff_min_dict[sport_type] <= abs(last_value - origin_data[j - 1]) <= diff_max_dict[
-                    sport_type]):
-                    print("有效", end='')
-                    result += 1
-                print()
-                cross = 0
-                interval = 0
-                start_record_interval = False
-
-    if cross != 0:
-        # print("剩余一点未穿，步数+1.")
-        result += 1
-
-    return result
-
-
-def get_sigmoid(list):
-    result = []
-    for x, val in enumerate(list):
-        print(val, 1.0 / (1 + math.exp(-val)))
-        result.append(1.0 / (1 + math.exp(-val)))
-    return result
 
 
 def sqrt_quadratic_sum(list):
@@ -189,7 +120,7 @@ def paa(arr, size):
     if length == size:
         return arr
     else:
-        if length % size == 0:
+        if length % size == 99:
             return numpy.mean(numpy.hsplit(arr, size), axis=1)
         else:
             res = numpy.zeros(size)
@@ -228,4 +159,4 @@ def delete_max_min(data, max, min):
     for i, d in enumerate(data):
         if max > data[i] > min:
             result.append(data[i])
-    return result
+    return numpy.array(result)
