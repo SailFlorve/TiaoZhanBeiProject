@@ -20,7 +20,7 @@ class PlotUtil:
     def __init__(self):
         pass
 
-    def plot(self, data, label=None, title=None, form=None):
+    def plot(self, data, form=None, title=None, label=None):
         self.data_list.append(data)
         self.label_list.append(label)
         self.title_list.append(title)
@@ -41,7 +41,8 @@ class PlotUtil:
         for i, data in enumerate(self.data_list):
             sp: matplotlib.pyplot = plt.subplot(row, column, i + 1)
             sp.plot(self.data_list[i], self.form_list[i], label=self.label_list[i])
-            sp.legend()
+            if self.label_list[i] is not None:
+                sp.legend()
             plt.title(self.title_list[i])
 
         plt.show()
@@ -51,8 +52,8 @@ class PlotUtil:
     def show_together(self):
         for i, data in enumerate(self.data_list):
             plt.plot(self.data_list[i], self.form_list[i], label=self.label_list[i])
-
-        plt.legend()
+            if self.label_list[i] is not None:
+                plt.legend()
         plt.show()
 
         self.clear()

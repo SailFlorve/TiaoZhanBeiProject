@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 import numpy as np
 
 
@@ -12,6 +10,6 @@ class SensorDataSequence:
 
     def __init__(self, data):
         self.data = data
-        self.axis_x = data[:, 0:1]
-        self.axis_y = data[:, 1:2]
-        self.axis_z = data[:, 2:3]
+        self.axis_x = data[:, 0:1].reshape(len(data))
+        self.axis_y = data[:, 1:2].reshape(len(data))
+        self.axis_z = data[:, 2:3].reshape(len(data))
