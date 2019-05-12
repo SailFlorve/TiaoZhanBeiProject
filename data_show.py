@@ -1,6 +1,7 @@
 from constant.sensor_ID import SensorID
 from sail.algorithm.data_processor import *
 from sail.algorithm.shape_algorithm import ShapeAlgorithm
+from util.filter import low_pass_filter
 from util.plot_util import PlotUtil
 from util.sensor_data_util import SensorDataUtil
 
@@ -15,7 +16,11 @@ ori_data = sensor_ori.data
 ori_data_x = sensor_ori.axis_x
 ori_data_y = sensor_ori.axis_y
 ori_data_z = sensor_ori.axis_z
+pca_data = pca(ori_data)
 
+pu.plot(ori_data_x[150:300]).plot(paa(ori_data_x[150:300], 5), "o-").show()
+
+exit(10)
 algorithm = ShapeAlgorithm()
 
 last_state = -1
