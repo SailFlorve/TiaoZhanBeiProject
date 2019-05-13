@@ -10,45 +10,22 @@ sdu = SensorDataUtil(path)
 pu = PlotUtil()
 
 sensor = sdu.get_sensor(SensorID.HOST)
-sensor_ori = sensor.orientation
 
-ori_data = sensor_ori.data
-ori_data_x = sensor_ori.axis_x
-ori_data_y = sensor_ori.axis_y
-ori_data_z = sensor_ori.axis_z
-pca_data = pca(ori_data)
+acc_data = sensor.acceleration.remove_abnormal(-20, 20).data
+ori_data = sensor.orientation.remove_abnormal(-180, 180).data
 
-pu.plot(ori_data_x[150:300]).plot(paa(ori_data_x[150:300], 5), "o-").show()
+acc_pca = low_pass_filter(pca(acc_data))
+ori_pca = low_pass_filter(pca(ori_data))
 
-exit(10)
-algorithm = ShapeAlgorithm()
+pu.plot(acc_data).plot(acc_pca).plot(ori_data).plot(ori_pca).show()
 
-last_state = -1
-for data in ori_data_x:
-    if data > 200 or data < -200:
-        continue
-    state, index = algorithm.put_data(data)
-    if state != -1:
-        print(state, "index:", index)
+sa = ShapeAlgorithm()
 
-pu.plot(ori_data_x).show()
+for data in numpy.nditer(ori_pca):
+    res, ind = sa.put_data(data)
+    if res != -1:
+        print(res, ind)
+        if ind is not None:
+            print(sa.data[ind])
 
-exit(9)
-
-data_queue = []
-
-pu.plot(ori_data_x).show()
-
-for data in ori_data_x:
-    data_queue.append(data)
-    if len(data_queue) % 30 != 0:
-        continue
-    data_len = len(data_queue)
-    if data_len < 100:
-        data_slice = data_queue
-    else:
-        data_slice = data_queue[data_len - 100:data_len]
-
-    paa_res = paa(data_slice, 5)
-    print(numpy.var(paa_res))
-    pu.plot(data_slice).plot(paa_res, form="o-").show()
+pu.plot(ori_pca).plot(acc_pca).show_together()

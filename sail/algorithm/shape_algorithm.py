@@ -25,13 +25,15 @@ class ShapeAlgorithm:
     window_size: int = 150
     static_var = 1
 
+    pu = PlotUtil()
+
     def __init__(self):
         pass
 
     def put_data(self, d):
         self.data.append(d)
-        data_slice = self.get_window()
         if len(self.data) % self.process_threshold == 0:
+            data_slice = self.get_window()
             return self.process(data_slice)
         else:
             return -1, -1
@@ -45,31 +47,38 @@ class ShapeAlgorithm:
     def judge_state(self, paa_result):
         var = np.var(paa_result)
         last_index = len(paa_result) - 1
+
         if var <= self.static_var:
-            return STATIC, None
+            return STATIC
+
         if paa_result[last_index] < paa_result[last_index - 1]:
             if paa_result[last_index - 2] < paa_result[last_index - 1]:
-                return MINIMUM_VALUE, self.get_index_in_data(3)
+                return MINIMUM_VALUE
             else:
-                return DECREASING, None
+                return DECREASING
 
         if paa_result[last_index] > paa_result[last_index - 1]:
             if paa_result[last_index - 2] > paa_result[last_index - 1]:
-                return MAXIMUM_VALUE, self.get_index_in_data(3)
+                return MAXIMUM_VALUE
             else:
-                return INCREASING, None
+                return INCREASING
 
     def process(self, data_slice):
-
         paa_result = paa(data_slice, self.paa_size)
-        pu = PlotUtil()
-        # pu.plot(data_slice).plot(paa_result, 'o-').show()
 
-        state, index = self.judge_state(paa_result)
+        state = self.judge_state(paa_result)
+
+        # self.pu.plot(data_slice).plot(paa_result, 'o-').show()
+
+        if state == MINIMUM_VALUE or state == MAXIMUM_VALUE:
+            index = self.get_index_in_data(len(data_slice), 3)
+        else:
+            index = None
         return state, index
 
-    def get_index_in_data(self, paa_index):
-        split_num = int(self.window_size / self.paa_size)
+    # 根据PAA的index获取数据原来的index
+    def get_index_in_data(self, window_size, paa_index):
+        split_num = int(window_size / self.paa_size - 1)
         return len(self.data) - (self.paa_size - paa_index - 1) * split_num
 
 

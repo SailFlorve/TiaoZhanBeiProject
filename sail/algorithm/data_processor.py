@@ -108,19 +108,19 @@ def cut_invalid(data, value):
     return data[index:index_reverse]
 
 
-def pca(arr, dimen=1):
-    result = PCA(n_components=dimen)
+def pca(arr, dimention=1) -> numpy.core.multiarray:
+    result = PCA(n_components=dimention)
     new_arr = result.fit_transform(arr)
     data = numpy.reshape(new_arr, len(new_arr), -1)
     return data
 
 
-def paa(arr, size):
+def paa(arr, size) -> numpy.core.multiarray:
     length = len(arr)
     if length == size:
         return arr
     else:
-        if length % size == 99:
+        if length % size == -1:
             return numpy.mean(numpy.hsplit(arr, size), axis=1)
         else:
             res = numpy.zeros(size)
