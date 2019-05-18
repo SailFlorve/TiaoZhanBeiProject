@@ -80,12 +80,3 @@ class ShapeAlgorithm:
     def get_index_in_data(self, window_size, paa_index) -> int:
         split_num = int(window_size / self.paa_size)
         return len(self.data) - (self.paa_size - paa_index - 1 + 0.5) * split_num
-
-
-if __name__ == "__main__":
-    sub_actions = ["下蹲", '站立']
-    sub_actions_num = 2
-    sub_action_feature = [[DECREASING], [INCREASING]]
-    sub_action_boundary = [[DECREASING, MINIMUM_VALUE], [INCREASING, MAXIMUM_VALUE]]
-
-    ag = ShapeAlgorithm()
