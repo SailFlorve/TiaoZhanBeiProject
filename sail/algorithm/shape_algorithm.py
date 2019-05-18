@@ -30,7 +30,7 @@ class ShapeAlgorithm:
     def __init__(self):
         pass
 
-    def put_data(self, d):
+    def put_data(self, d) -> (int, int):
         self.data.append(d)
         if len(self.data) % self.process_threshold == 0:
             data_slice = self.get_window()
@@ -44,7 +44,7 @@ class ShapeAlgorithm:
         data_slice = self.data[window_start:data_len] if data_len >= self.window_size else self.data
         return data_slice
 
-    def judge_state(self, paa_result):
+    def judge_state(self, paa_result) -> int:
         var = np.var(paa_result)
         last_index = len(paa_result) - 1
 
@@ -63,7 +63,7 @@ class ShapeAlgorithm:
             else:
                 return INCREASING
 
-    def process(self, data_slice):
+    def process(self, data_slice) -> (int, int):
         paa_result = paa(data_slice, self.paa_size)
 
         state = self.judge_state(paa_result)
@@ -71,15 +71,15 @@ class ShapeAlgorithm:
         # self.pu.plot(data_slice).plot(paa_result, 'o-').show()
 
         if state == MINIMUM_VALUE or state == MAXIMUM_VALUE:
-            index = self.get_index_in_data(len(data_slice), 3)
+            index = self.get_index_in_data(len(data_slice), self.paa_size - 1 - 1)
         else:
             index = None
         return state, index
 
     # 根据PAA的index获取数据原来的index
-    def get_index_in_data(self, window_size, paa_index):
-        split_num = int(window_size / self.paa_size - 1)
-        return len(self.data) - (self.paa_size - paa_index - 1) * split_num
+    def get_index_in_data(self, window_size, paa_index) -> int:
+        split_num = int(window_size / self.paa_size)
+        return len(self.data) - (self.paa_size - paa_index - 1 + 0.5) * split_num
 
 
 if __name__ == "__main__":
