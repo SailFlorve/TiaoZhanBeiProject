@@ -133,22 +133,6 @@ def paa(arr, size) -> numpy.core.multiarray:
             return res
 
 
-def sax(data, alphabet_size=4):
-    if alphabet_size == 4:
-        str_list = ''
-        for i, val in enumerate(data):
-            if val < -0.67:
-                str_list += 'a'
-            elif -0.67 < val < 0:
-                str_list += 'b'
-            elif 0 < val < 0.67:
-                str_list += 'c'
-            else:
-                str_list += 'd'
-        return str_list
-    return None
-
-
 def vector_cos(v1, v2):
     return v1.dot(v2) / (numpy.sqrt(v1.dot(v1)) * numpy.sqrt(v2.dot(v2)))
 
