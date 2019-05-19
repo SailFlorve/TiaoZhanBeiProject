@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 # pu = PlotUtil()
 # pu.plot.show() 默认绘制一张
 # pu.plot().plot().plot().show() 自动绘制多张
+from matplotlib import pyplot
+
 
 class PlotUtil:
     data_list: List = []

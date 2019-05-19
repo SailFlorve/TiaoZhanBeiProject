@@ -22,6 +22,7 @@ class ShapeAlgorithm:
     static_var = 1
 
     pu = PlotUtil()
+    plot_log = False
 
     def __init__(self):
         pass
@@ -45,7 +46,8 @@ class ShapeAlgorithm:
 
         state = self.judge_state(paa_result)
 
-        self.pu.plot(data_slice).plot(paa_result, 'o-').show()
+        if self.plot_log:
+            self.pu.plot(data_slice).plot(paa_result, 'o-').show()
 
         if state == MINIMUM_VALUE or state == MAXIMUM_VALUE:
             index = self.get_index_in_data(len(data_slice), self.paa_size - 2)
@@ -75,6 +77,6 @@ class ShapeAlgorithm:
 
     # 根据PAA的index获取数据原来的index
     def get_index_in_data(self, window_size, paa_index) -> int:
-        split_num = int(window_size / self.paa_size)
+        split_num = window_size / self.paa_size
         index = len(self.data) - (self.paa_size - paa_index - 1 + 0.5) * split_num
         return int(index)
