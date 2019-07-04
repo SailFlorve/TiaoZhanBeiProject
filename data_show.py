@@ -27,6 +27,11 @@ ori_data = sensor.orientation.remove_abnormal(-180, 180).data
 acc_data_x = sensor.acceleration.axis_x
 acc_data_y = sensor.acceleration.axis_y
 acc_data_z = sensor.acceleration.axis_z
+
+ori_data_x = sensor.orientation.axis_x.data
+
+ori_data_x_filtered = low_pass_filter(sensor.orientation.axis_x.data)
+
 print(acc_data_x.tolist())
 acc_data_x_filtered = low_pass_filter(acc_data_x)
 
