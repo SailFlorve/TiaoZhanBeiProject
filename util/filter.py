@@ -32,7 +32,7 @@ def kalman_filter(value_list, Q=1e-5, R=0.01):
         # measurement update
         K[k] = Pminus[k] / (Pminus[k] + R)  # Kg(k)=P(k|k-1)H'/[HP(k|k-1)H' + R],H=1
         xhat[k] = xhatminus[k] + K[k] * (
-            value_list[k] - xhatminus[k])  # X(k|k) = X(k|k-1) + Kg(k)[Z(k) - HX(k|k-1)], H=1
+                value_list[k] - xhatminus[k])  # X(k|k) = X(k|k-1) + Kg(k)[Z(k) - HX(k|k-1)], H=1
         P[k] = (1 - K[k]) * Pminus[k]  # P(k|k) = (1 - Kg(k)H)P(k|k-1), H=1
     return xhat
 
@@ -47,6 +47,8 @@ def low_pass_filter(value_list, weight=0.1):
     result = numpy.zeros(len(value_list))
     last = value_list[0]
     for i in range(len(value_list)):
+        print("result = ", last, "*", 1.0 - weight, "+", value_list[i], "*", weight)
         result[i] = last * (1.0 - weight) + value_list[i] * weight
+        print(result[i])
         last = result[i]
     return result
